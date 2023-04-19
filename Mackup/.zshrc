@@ -1,4 +1,3 @@
-# zmodload zsh/zprof
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -6,57 +5,35 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-#
-
-# Check if zplug is installed
-
-if [[ ! -d ~/.zplug ]]; then
-  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-  source ~/.zplug/init.zsh && zplug update --self
-fi
-
-# Essential
-source ~/.zplug/init.zsh
+source /usr/local/share/antigen/antigen.zsh
 
 export NVM_LAZY_LOAD=true
 export NVM_NO_USE=true
 export NVM_AUTO_USE=true
 
-zplug "romkatv/powerlevel10k", as:theme, depth:1
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug "plugins/common-aliases", from:oh-my-zsh
-zplug "plugins/zsh-navigation-tools", from:oh-my-zsh
-zplug "changyuheng/zsh-interactive-cd"
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-history-substring-search"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions"
-zplug "Tarrasch/zsh-bd"
-zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/maven", from:oh-my-zsh
-zplug "plugins/history", from:oh-my-zsh
-zplug "plugins/tig", from:oh-my-zsh
-# zplug "plugins/docker", from:oh-my-zsh
-# zplug "plugins/pip", from:oh-my-zsh
-zplug "plugins/autojump", from:oh-my-zsh
-zplug "lukechilds/zsh-nvm", lazy:true
-zplug "matthieusb/zsh-sdkman", lazy:true
-zplug "se-jaeger/zsh-activate-py-environment"
+# Load the oh-my-zsh's library.
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    else
-        echo
-    fi
-fi
+antigen use oh-my-zsh
 
-zplug load
+antigen bundle git
+antigen bundle tig
+antigen bundle tig
+antigen bundle zsh-navigation-tools
+antigen bundle command-not-found
+antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
+antigen bundle Tarrasch/zsh-bd
+antigen bundle agkozak/zsh-z
+antigen bundle lukechilds/zsh-nvm
+antigen bundle matthieusb/zsh-sdkman
+
+antigen theme romkatv/powerlevel10k
+
+# Tell Antigen that you're done.
+antigen apply
+
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -75,4 +52,3 @@ alias gm='git merge --no-commit'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
